@@ -51,7 +51,7 @@ class FilterModal extends Component {
                             <span className={classes.headerTitle}>
                                 FILTER BY
                             </span>
-                            <button onClick={closeDrawer}>
+                            <button onClick={closeDrawer} ref={this.props.innerRef}>
                                 <Icon src={CloseIcon} />
                             </button>
                         </div>

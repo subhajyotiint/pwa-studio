@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { shape, string } from 'prop-types';
 
 import { mergeClasses } from 'src/classify';
@@ -14,11 +14,17 @@ const CategoryContent = props => {
     const items = data ? data.products.items : null;
     const title = data ? data.category.name : null;
 
+    const modalRef = useRef();
+    const handleFilterClick = useCallback(() => {
+        openDrawer();
+        console.log('focusing');
+        modalRef.current.focus();
+    }, [openDrawer])
     const header = filters ? (
         <div className={classes.headerButtons}>
             <button
                 className={classes.filterButton}
-                onClick={openDrawer}
+                onClick={handleFilterClick}
                 type="button"
             >
                 {'Filter'}
@@ -26,7 +32,7 @@ const CategoryContent = props => {
         </div>
     ) : null;
 
-    const modal = filters ? <FilterModal filters={filters} /> : null;
+    const modal = filters ? <FilterModal filters={filters} innerRef={modalRef}/> : null;
 
     return (
         <article className={classes.root}>

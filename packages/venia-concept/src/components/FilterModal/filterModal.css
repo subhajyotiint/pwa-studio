@@ -11,7 +11,7 @@
     visibility: hidden;
     opacity: 0;
     overflow: hidden;
-    width: 100%;
+    width: 360px;
     z-index: 3;
     display: grid;
     grid-template-rows: min-content 1fr;
@@ -26,6 +26,7 @@
     transition-duration: 224ms;
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     visibility: visible;
+    width: 360px;
 }
 
 .modalWrapper {
