@@ -1,31 +1,21 @@
 const debug = require('../util/debug').makeFileLogger(__filename);
 const { relative, resolve } = require('path');
-const fse = require('fs-extra');
 const walk = require('klaw');
 const micromatch = require('micromatch');
 
-function getBuildpackInstructions(template) {
-    const instructionFolder = resolve(template, '.buildpack');
-    try {
-        return {
-            create: require(resolve(instructionFolder, 'create'))
-        };
-    } catch (e) {
-        throw new Error(
-            `Buildpack createProject('${template}') could not find a valid './.buildpack/create.js' file in that directory. This file must be present to instruct Buildpack how to copy the template files into a new directory.`
-        );
-    }
-}
+const getBuildpackInstructions = require('./getBuildpackInstructions');
 
 function createProject(options) {
     const { template, directory } = options;
 
-    const instructions = getBuildpackInstructions(template);
-    const { after, visitor } = instructions.create(fse);
+    const { instructions, packageRoot } = getBuildpackInstructions(template, [
+        'create'
+    ]);
+    const { after, visitor } = instructions.create;
 
     const copyGlobs = Object.keys(visitor);
     const visit = ({ stats, path }) => {
-        const relativePath = relative(template, path);
+        const relativePath = relative(packageRoot, path);
         const targetPath = resolve(directory, relativePath);
         const pattern = copyGlobs.find(glob =>
             micromatch.isMatch(relativePath, glob, { dot: true })
@@ -44,29 +34,34 @@ function createProject(options) {
     };
 
     return new Promise((succeed, fail) => {
-        const copyStream = walk(template, {
+        let failed = false;
+        const copyStream = walk(packageRoot, {
             filter: p => !p.includes('node_modules/')
         });
 
         copyStream.on('readable', function() {
             let item;
-            while ((item = this.read())) {
+            while (!failed && (item = this.read())) {
                 debug(`visiting ${item.path}`);
                 try {
                     visit(item);
                 } catch (e) {
+                    failed = true;
                     fail(e);
                 }
             }
         });
         copyStream.on('error', fail);
-        copyStream.on('end', async () => {
+        copyStream.on('end', () => {
             if (after) {
                 try {
-                    await after({ options });
+                    after({ options });
+                    succeed();
                 } catch (e) {
+                    failed = true;
                     fail(e);
                 }
+            } else {
                 succeed();
             }
         });

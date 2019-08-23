@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`throws informative error if instruction does not exist 1`] = `"Buildpack could not find a valid '.buildpack/return-fse-readjsonsync.js' file in /Volumes/CaseSensitive/pwa-studio/packages/pwa-buildpack/lib/Utilities/__tests__/__fixtures__/modules/package-with-no-instructions. This file must be present to instruct Buildpack how to use the /Volumes/CaseSensitive/pwa-studio/packages/pwa-buildpack/lib/Utilities/__tests__/__fixtures__/modules/package-with-no-instructions package to perform the \\"return-fse-readjsonsync\\" operation. Original error: Cannot find module '/Volumes/CaseSensitive/pwa-studio/packages/pwa-buildpack/lib/Utilities/__tests__/__fixtures__/modules/package-with-no-instructions/.buildpack/return-fse-readjsonsync' from 'getBuildpackInstructions.js'"`;
+
+exports[`throws informative error if instruction fails 1`] = `"Buildpack encountered an error running /Volumes/CaseSensitive/pwa-studio/packages/pwa-buildpack/lib/Utilities/__tests__/__fixtures__/modules/package-with-bad-instruction/.buildpack/throw-on-execute. Original error: Failed to run a bad instruction"`;

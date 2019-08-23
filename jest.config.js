@@ -131,6 +131,9 @@ const jestConfig = {
             testURL: 'https://localhost/'
         })),
         configureProject('pwa-buildpack', 'Buildpack', () => ({
+            modulePaths: [
+                '<rootDir>/packages/pwa-buildpack/lib/Utilities/__tests__/__fixtures__/modules'
+            ],
             testEnvironment: 'node'
         })),
         configureProject('upward-js', 'Upward JS', () => ({
