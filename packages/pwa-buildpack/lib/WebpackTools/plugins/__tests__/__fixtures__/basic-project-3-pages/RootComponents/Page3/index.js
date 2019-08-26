@@ -5,4 +5,4 @@
  * description = 'Special Product Pages'
  */
 
- alert('product_page_special');
+alert('product_page_special');

@@ -61,9 +61,15 @@ test('Creates a chunk for each root when multiple roots exist', async () => {
     };
 
     const { stats } = await compile(config);
-    expect(stats.compilation.assets['RootCmp_catalog_page__default.chunk.js']).toBeTruthy();
-    expect(stats.compilation.assets['RootCmp_product_page__default.chunk.js']).toBeTruthy();
-    expect(stats.compilation.assets['RootCmp_product_page__special.chunk.js']).toBeTruthy();
+    expect(
+        stats.compilation.assets['RootCmp_catalog_page__default.chunk.js']
+    ).toBeTruthy();
+    expect(
+        stats.compilation.assets['RootCmp_product_page__default.chunk.js']
+    ).toBeTruthy();
+    expect(
+        stats.compilation.assets['RootCmp_product_page__special.chunk.js']
+    ).toBeTruthy();
 });
 
 test('Does not prevent chunk name from being configurable', async () => {
@@ -88,7 +94,9 @@ test('Does not prevent chunk name from being configurable', async () => {
     };
 
     const { stats } = await compile(config);
-    expect(stats.compilation.assets['RootCmp_catalog_page__default.foobar.js']).toBeTruthy();
+    expect(
+        stats.compilation.assets['RootCmp_catalog_page__default.foobar.js']
+    ).toBeTruthy();
 });
 
 test('Creates chunks for all roots when multiple values are provided in "rootComponentsDirs" config', async () => {
@@ -114,8 +122,12 @@ test('Creates chunks for all roots when multiple values are provided in "rootCom
     };
 
     const { stats } = await compile(config);
-    expect(stats.compilation.assets['RootCmp_catalog_page__default.chunk.js']).toBeTruthy();
-    expect(stats.compilation.assets['RootCmp_cms_page__default.chunk.js']).toBeTruthy();
+    expect(
+        stats.compilation.assets['RootCmp_catalog_page__default.chunk.js']
+    ).toBeTruthy();
+    expect(
+        stats.compilation.assets['RootCmp_cms_page__default.chunk.js']
+    ).toBeTruthy();
 });
 
 test('Works when there is 1 unnamed entry point in the config', async () => {
@@ -142,7 +154,7 @@ test('Works when there is 1 unnamed entry point in the config', async () => {
         'RootCmp_catalog_page__default.chunk.js',
         'RootCmp_product_page__default.chunk.js',
         'RootCmp_product_page__special.chunk.js',
-        'main.js', // default entry point name when name isn't provided
+        'main.js' // default entry point name when name isn't provided
     ].sort();
     const writtenFiles = fs.readdirSync(config.output.path).sort();
     expect(writtenFiles).toEqual(expectedFiles);

@@ -34,10 +34,6 @@ class RootComponentsPlugin {
         this.compiler = compiler;
         this.bindFs();
         this.injectRootComponentLoader();
-        // const inject = () => this.injectRootComponentLoader();
-        // debug('apply: subscribing to beforeRun and watchRun');
-        // compiler.hooks.beforeRun.tapPromise('RootComponentsPlugin', inject);
-        // compiler.hooks.watchRun.tapPromise('RootComponentsPlugin', inject);
     }
 
     bindFs() {
@@ -88,11 +84,7 @@ class RootComponentsPlugin {
         });
     }
     async buildFetchModule() {
-        const {
-            context,
-            rootComponentsDirs,
-            globalProperty = 'fetchRootComponent'
-        } = this.opts;
+        const { context, rootComponentsDirs } = this.opts;
 
         // Create a list of absolute paths for root components. When a
         // relative path is found, resolve it from the root context of
@@ -230,7 +222,7 @@ class RootComponentsPlugin {
         }`;
 
         // assign factory return value, the importer function, to global
-        const wrapped = `;window.${globalProperty} = (${importerFactory.toString()})()`;
+        const wrapped = `;window.fetchRootComponent = (${importerFactory.toString()})()`;
 
         return wrapped;
     }
